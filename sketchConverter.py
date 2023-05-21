@@ -15,6 +15,7 @@ def convertToSketch(photo, k_size, greyName, resultName):
     imgBlurInvt=cv2.bitwise_not(imgBlur)
     #deriving the "pencil sketch" image by dividing the grey image by the blurred one
     imgSketch=cv2.divide(imgGrey,imgBlurInvt, scale=256.0)
+    
     # Saving the sketch image
     cv2.imwrite(resultName, imgSketch)
     
@@ -25,9 +26,7 @@ def blueScale(photo, bluePhoto):
     #utilizing PIL's colorize to change to bluescale
     img = ImageOps.colorize(img, black = "#4c9ccc", white = "#e9ddb3")
     #img.show()
-    img.save(bluePhoto)\
-
-#this function combines the blueSketch with a blueScaled version of the original to add more background elements
+    img.save(bluePhoto)
 def imgOverlay(photo, overlay, result):
     #opening up the images
     img2 = Image.open(photo).convert("RGBA")
@@ -38,7 +37,8 @@ def imgOverlay(photo, overlay, result):
     img1.save(result)
     img1.show()
 
-convertToSketch(photo='knights.jpg', k_size=(int(input("What kernel size would you like? Larger kernels will be more detailed but less sketch-like.\n"))), greyName = 'grey.png', resultName = 'sketch.png')
+convertToSketch(photo='plains.jpg', k_size=(int(input("What thickness would you like, on a scale of 1-10?\n")) * 20 + 1), greyName = 'grey.png', resultName = 'sketch.png')
 blueScale(photo='sketch.png', bluePhoto='blueSketch.png')
 blueScale(photo='grey.png', bluePhoto='bluePhoto.png')
+
 imgOverlay(photo='blueSketch.png', overlay = 'bluePhoto.png', result = 'result.png')
