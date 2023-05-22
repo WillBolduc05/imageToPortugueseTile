@@ -1,4 +1,5 @@
 import cv2
+import argparse
 from PIL import Image, ImageOps
 #this function was based on the one found here: https://towardsdatascience.com/generate-pencil-sketch-from-photo-in-python-7c56802d8acb
 def convertToSketch(photo, k_size, greyName, resultName):
@@ -37,8 +38,14 @@ def imgOverlay(photo, overlay, result):
     img1.save(result)
     img1.show()
 
-convertToSketch(photo='plains.jpg', k_size=(int(input("What thickness would you like, on a scale of 1-10?\n")) * 20 + 1), greyName = 'grey.png', resultName = 'sketch.png')
+ARGPARSER = argparse.ArgumentParser()
+ARGPARSER.add_argument("--thickness", type=int)
+ARGPARSER.add_argument("--input", type=str)
+ARGPARSER.add_argument("--output", type=str)
+ARGS = ARGPARSER.parse_args()
+
+convertToSketch(photo=ARGS.input, k_size=(ARGS.thickness * 20 + 1), greyName = 'grey.png', resultName = 'sketch.png')
 blueScale(photo='sketch.png', bluePhoto='blueSketch.png')
 blueScale(photo='grey.png', bluePhoto='bluePhoto.png')
 
-imgOverlay(photo='blueSketch.png', overlay = 'bluePhoto.png', result = 'result.png')
+imgOverlay(photo='blueSketch.png', overlay = 'bluePhoto.png', result = ARGS.output)
