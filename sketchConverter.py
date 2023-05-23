@@ -1,5 +1,5 @@
 import cv2
-import argparse
+import os
 from PIL import Image, ImageOps
 #this function was based on the one found here: https://towardsdatascience.com/generate-pencil-sketch-from-photo-in-python-7c56802d8acb
 def convertToSketch(photo, k_size, greyName, resultName):
@@ -21,31 +21,27 @@ def convertToSketch(photo, k_size, greyName, resultName):
     cv2.imwrite(resultName, imgSketch)
     
 #this function alters the coloring of the image using PIL's colorize method
-def blueScale(photo, bluePhoto):
+def blueScale(photo):
     #opening up the sketch image
     img =  Image.open(photo, "r")
     #utilizing PIL's colorize to change to bluescale
     img = ImageOps.colorize(img, black = "#4c9ccc", white = "#e9ddb3")
     #img.show()
-    img.save(bluePhoto)
+    return img
 def imgOverlay(photo, overlay, result):
     #opening up the images
-    img2 = Image.open(photo).convert("RGBA")
-    img1 = Image.open(overlay).convert("RGBA")
+    img1 = bPhoto
+    img2 = bSketch
     #overlaying the overlay onto the photo. The ratio ranges from 0 to 1, where 0 would be entirely the overlay and 1 would be entirely the photo
     img1 = Image.blend(img1,img2, 0.75)
     #saving the image
     img1.save(result)
     img1.show()
 
-ARGPARSER = argparse.ArgumentParser()
-ARGPARSER.add_argument("--thickness", type=int)
-ARGPARSER.add_argument("--input", type=str)
-ARGPARSER.add_argument("--output", type=str)
-ARGS = ARGPARSER.parse_args()
+blueSketch = convertToSketch(photo='plains.jpg', k_size=(int(input("What thickness would you like, on a scale of 1-10?\n")) * 20 + 1), greyName = 'grey.png', resultName = 'sketch.png')
+bSketch = blueScale(photo='sketch.png')
+bPhoto = blueScale(photo='grey.png')
 
-convertToSketch(photo=ARGS.input, k_size=(ARGS.thickness * 20 + 1), greyName = 'grey.png', resultName = 'sketch.png')
-blueScale(photo='sketch.png', bluePhoto='blueSketch.png')
-blueScale(photo='grey.png', bluePhoto='bluePhoto.png')
-
-imgOverlay(photo='blueSketch.png', overlay = 'bluePhoto.png', result = ARGS.output)
+imgOverlay(photo=bSketch, overlay = bPhoto, result = 'result1.png')
+os.remove("sketch.png")
+os.remove("grey.png")
