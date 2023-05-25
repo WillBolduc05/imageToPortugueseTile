@@ -1,5 +1,6 @@
 import cv2
 import os
+import argparse
 from PIL import Image, ImageOps
 #this function was based on the one found here: https://towardsdatascience.com/generate-pencil-sketch-from-photo-in-python-7c56802d8acb
 def convertToSketch(photo, k_size):
