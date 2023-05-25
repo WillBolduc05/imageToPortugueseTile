@@ -45,16 +45,18 @@ def imgOverlay(photo, overlay, result):
     #saving the image
     img1.save(result)
     img1.show()
-
+    
 ARGPARSER = argparse.ArgumentParser()
-ARGPARSER.add_argument("--thickness", type=int)
-ARGPARSER.add_argument("--input", type=str)
-ARGPARSER.add_argument("--output", type=str)
+ARGPARSER.add_argument("--thickness", type=int, default = 5, help="This is an integer 1-10 specifying how thick the lines of the drawing will be.")
+ARGPARSER.add_argument("--input", type=str, default = "", help = "This should be the address of the image you would like to use as a base.")
+ARGPARSER.add_argument("--output", type=str, default = "", help = "This should be the name of the file you would like to have as a result of this program")
 ARGS = ARGPARSER.parse_args()
 
-blueSketch = convertToSketch(photo=ARGS.input, k_size=(ARGS.thickness * 20 + 1))
-bSketch = blueScaleFromGrey(photo=blueSketch)
-original = cv2.imread(ARGS.input)
-bPhoto = blueScaleFromRGB(photo=original)
-
-imgOverlay(photo=bSketch, overlay = bPhoto, result = ARGS.output)
+if (ARGS.input == "" or ARGS.output== ""):
+    print("It appears that you have accidentally ommitted the input or output parameter. Those are neccessary for this program to run! If you are confused about the parameters, please run this program with the -h parameter")
+else :
+    blueSketch = convertToSketch(photo=ARGS.input, k_size=(ARGS.thickness * 20 + 1))
+    bSketch = blueScaleFromGrey(photo=blueSketch)
+    original = cv2.imread(ARGS.input)
+    bPhoto = blueScaleFromRGB(photo=original)
+    imgOverlay(photo=bSketch, overlay = bPhoto, result = ARGS.output)
