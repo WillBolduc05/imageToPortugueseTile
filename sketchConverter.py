@@ -54,7 +54,7 @@ ARGS = ARGPARSER.parse_args()
 
 blueSketch = convertToSketch(photo=ARGS.input, k_size=(ARGS.thickness * 20 + 1))
 bSketch = blueScaleFromGrey(photo=blueSketch)
-original = cv2.imread('plains.jpg')
+original = cv2.imread(ARGS.input)
 bPhoto = blueScaleFromRGB(photo=original)
 
 imgOverlay(photo=bSketch, overlay = bPhoto, result = ARGS.output)
