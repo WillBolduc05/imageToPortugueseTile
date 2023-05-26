@@ -1,6 +1,7 @@
 import cv2
 import os
 import argparse
+import numpy
 from PIL import Image, ImageOps
 #this function was based on the one found here: https://towardsdatascience.com/generate-pencil-sketch-from-photo-in-python-7c56802d8acb
 def convertToSketch(photo, k_size):
@@ -36,20 +37,41 @@ def blueScaleFromRGB(photo):
     #img.show()
     return img
 
-def imgOverlay(photo, overlay, result):
+def imgOverlay(photo, overlay):
     #opening up the images
     img1 = bPhoto
     img2 = bSketch
     #overlaying the overlay onto the photo. The ratio ranges from 0 to 1, where 0 would be entirely the overlay and 1 would be entirely the photo
     img1 = Image.blend(img1,img2, 0.75)
-    #saving the image
-    img1.save(result)
-    img1.show()
-    
+    return img1
+
+def drawTiles(photo, xLines, yLines, thickness, result):
+    cvPhoto = numpy.array(photo)  
+    cvPhoto = cv2.cvtColor(cvPhoto, cv2.COLOR_RGB2BGR)
+    color = (99, 108, 122)
+    h, w, channels = cvPhoto.shape
+    xStep = w / (xLines)
+    yStep = h / (yLines)
+    for i in range(1,xLines):
+        x = xStep * i
+        startPoint = (int(x),int(0))
+        endPoint = (int(x),int(h))
+        cv2.line(cvPhoto, startPoint,endPoint,color,thickness)
+    for i in range(1,yLines):
+        y = yStep * i
+        startPoint = (int(0),int(y))
+        endPoint = (int(w),int(y))
+        cv2.line(cvPhoto, startPoint, endPoint,color,thickness)
+    cv2.imwrite(result,cvPhoto)
+
 ARGPARSER = argparse.ArgumentParser()
 ARGPARSER.add_argument("--thickness", type=int, default = 5, help="This is an integer 1-10 specifying how thick the lines of the drawing will be.")
 ARGPARSER.add_argument("--input", type=str, default = "", help = "This should be the address of the image you would like to use as a base.")
 ARGPARSER.add_argument("--output", type=str, default = "", help = "This should be the name of the file you would like to have as a result of this program")
+ARGPARSER.add_argument("--xTiles", type=int, default = 4, help="This is an integer specifying the number of horizontal tiles.")
+ARGPARSER.add_argument("--yTiles", type=int, default = 4, help="This is an integer specifying the number of vertical tiles.")
+ARGPARSER.add_argument("--tileThickness", type=int, default = 2, help="This is an integer  how thick the lines of the splits between tiles will be.")
+
 ARGS = ARGPARSER.parse_args()
 
 if (ARGS.input == "" or ARGS.output== ""):
@@ -59,4 +81,6 @@ else :
     bSketch = blueScaleFromGrey(photo=blueSketch)
     original = cv2.imread(ARGS.input)
     bPhoto = blueScaleFromRGB(photo=original)
-    imgOverlay(photo=bSketch, overlay = bPhoto, result = ARGS.output)
+    overlayPhoto = imgOverlay(photo=bSketch, overlay = bPhoto)
+    drawTiles(photo=overlayPhoto, xLines = ARGS.xTiles, yLines = ARGS.yTiles, thickness = ARGS.tileThickness, result = ARGS.output)
+    
