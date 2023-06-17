@@ -5,6 +5,7 @@ This is a simple program to convert supplied images into blue pencil sketches on
 
 ```
 pip3 install opencv-python pillow argparse
+pip3 install flask
 ```
 
 ## Running
