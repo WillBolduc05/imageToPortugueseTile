@@ -53,7 +53,7 @@ def imgOverlay(photo, overlay):
 def drawTiles(photo, xLines, yLines, thickness, result):
     cvPhoto = numpy.array(photo)  
     cvPhoto = cv2.cvtColor(cvPhoto, cv2.COLOR_RGB2BGR)
-    color = (99, 108, 122)
+    color = (200, 200, 200)
     h, w, channels = cvPhoto.shape
     xStep = w / (xLines)
     yStep = h / (yLines)
@@ -70,8 +70,7 @@ def drawTiles(photo, xLines, yLines, thickness, result):
     #REMOVE THIS ONCE IT IS NO LONGER NEEDED FOR TESTING :)
     cv2.imwrite(result,cvPhoto)
     return cvPhoto
-
-def convertImage(photo, thickness = 1, xTiles = 4, yTiles = 4, tileThickness = 2):
+def convertImage(photo, thickness = 1, xTiles = 4, yTiles = 4, tileThickness = 1):
         blueSketch = convertToSketch(photo=photo, k_size=(thickness * 20 + 1))
         bSketch = blueScaleFromGrey(photo=blueSketch)
         img1 = numpy.array(photo)  
