@@ -103,4 +103,4 @@ def home():
     return render_template('image.html', msg='Here is the tile version of your image! Enjoy!', img_data=encoded_img_data.decode('utf-8'))
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port ="80")
