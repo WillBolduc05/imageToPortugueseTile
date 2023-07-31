@@ -1,5 +1,5 @@
 # imageToPencilSketch
-This is a simple program to convert supplied images into blue pencil sketches on tan backgrounds. 
+This is a simple program to convert supplied images into portuguese-style tile murals
 
 ## Prereqs
 
@@ -17,7 +17,9 @@ Example:
 python3 sketchConverter.py --input=sunset.jpg --output=tile.png --thickness=5
 ```
 
+## Running Dockerfile
+$ docker run -p 80:8000 [name of image]
+
 ## Known Issues
-Small details are lost very quickly, and things like clouds are not shown
 The coloration may look a bit off, testing is ongoing to find the optimal colors for the "bluescale" conversion
 
