@@ -1,5 +1,5 @@
 FROM python:3
-COPY Code .
+COPY sketchConverter.py .
 RUN pip3 install opencv-python 
 RUN pip3 install pillow
 RUN pip3 install argparse
