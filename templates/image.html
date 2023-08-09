@@ -1,12 +1,50 @@
-<h3>Upload an image</h3>
+<head>
+<style>
+body {background-color: powderblue;}
+h1   {background-color:black; color: white;}
+h3    {background-color: gainsboro; color: blue;}
+form { 
+margin: 0 auto; 
+width:250px;
+}
+.borderHead {
+ border-width:3px;
+ border-style:solid;
+ border-color:#FF0000;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 30%;
+}
+ 
+   button {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
-<form method="post" enctype="multipart/form-data">
-    <input type="file" name="file" accept="image/jpeg,image/jpg,image/png">
+
+
+</style>
+</head>
+<body>
+<h1 class="borderHead"><center>Welcome to MyPortugueseTile!<center></h1>
+<h3><center>MyPortugueseTile is a simple service designed to convert any image into a traditional portuguese-style tile mural.<br>(For those who are unaware, this means a tile mural using a blue-tan color scheme with a pencil sketch-like style.)<br>You can upload any image in jpeg, jpg, or png format, and your output will be returned as a jpeg file.<br>This is a free service and we hope you enjoy!<br>Documentation and the process used to convert the image can be found here: https://github.com/WillBolduc05/imageToPencilSketch</center></h3><form method="post" enctype="multipart/form-data">
+    <input align="center" type="file" name="file" accept="image/jpeg,image/jpg,image/png">
     
     <br/>
 
-    <input type="submit" value="Upload">
+    <input align="center" type="submit" value="Upload">
 </form>
+<h4 style="color:red"><center>{{ msg }}</center></h4>
 
-<h4 style="color:red">{{ msg }}</h4>
-<img id="picture" src="data:image/jpeg;base64,{{ img_data }}">
+    <a href="data:image/jpeg;base64,{{ img_data }}"
+      Download = "Converted_Image">
+         <button type = "button"> Download Image </button>
+      </a>
+
+<img id="picture" src="data:image/jpeg;base64,{{ small_img_data }}" class="center">
+
+</body>
