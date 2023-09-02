@@ -1,5 +1,5 @@
-# imageToPencilSketch
-This is a simple program to convert supplied images into portuguese-style tile murals
+# imageToPortugueseTile
+This is a program to host a website to convert supplied images into portuguese-style tile murals
 
 ## Prereqs
 
