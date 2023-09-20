@@ -67,8 +67,6 @@ def drawTiles(photo, xLines, yLines, thickness, result):
         startPoint = (int(0),int(y))
         endPoint = (int(w),int(y))
         cv2.line(cvPhoto, startPoint, endPoint,color,thickness)
-    #REMOVE THIS ONCE IT IS NO LONGER NEEDED FOR TESTING :)
-    cv2.imwrite(result,cvPhoto)
     return cvPhoto
 def convertImage(photo, thickness = 1, xTiles = 4, yTiles = 4, tileThickness = 1):
         blueSketch = convertToSketch(photo=photo, k_size=(thickness * 20 + 1))
@@ -96,11 +94,16 @@ def home():
     img = numpy.array(img)
     
     output = convertImage(photo = img, thickness = 1, xTiles = 4, yTiles = 4, tileThickness = 2)
+    newsize = (500, 500)
+    smallOutput = output.resize(newsize)
     data = io.BytesIO()
-    output.save(data, "JPEG")
-    encoded_img_data = base64.b64encode(data.getvalue())
+    smallOutput.save(data, "JPEG")
+    small_encoded_img_data = base64.b64encode(data.getvalue())
+    data1 = io.BytesIO()
+    output.save(data1, "JPEG")
+    encoded_img_data = base64.b64encode(data1.getvalue())
 
-    return render_template('image.html', msg='Here is the tile version of your image! Enjoy!', img_data=encoded_img_data.decode('utf-8'))
+    return render_template('image.html', msg='Here is the tile version of your image! Enjoy!', img_data=encoded_img_data.decode('utf-8'), small_img_data=small_encoded_img_data.decode('utf-8'))
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port ="8000")
