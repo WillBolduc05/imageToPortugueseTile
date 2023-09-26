@@ -1,4 +1,5 @@
-FROM python:3
+ARG PYTHON_VERSION=
+FROM python:$PYTHON_VERSION
 RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 COPY sketchConverter.py .
 RUN mkdir templates/
