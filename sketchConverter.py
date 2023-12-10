@@ -24,7 +24,7 @@ def convertToSketch(photo, k_size):
     imgSketch=cv2.divide(imgGrey,imgBlurInvt, scale=256.0)
     return imgSketch
     
-#this function alters the coloring of the image using PIL's colorize method
+#this function alters the coloring of the image by using PIL's colorize method
 def blueScaleFromGrey(photo):
     #opening up the sketch image
     img = Image.fromarray(photo)
